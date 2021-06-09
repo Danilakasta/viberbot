@@ -39,7 +39,7 @@ public class WebHookListener implements ApplicationListener<ApplicationReadyEven
 
         bot.onMessageReceived((event, message, response) -> response.send(message));
         bot.onConversationStarted(event -> Futures.immediateFuture(Optional.of(
-                new TextMessage("Салам папалам " + event.getUser().getName() + "! Че как жизнь?"))));
+                new TextMessage("Салам папалам " + event.getUser().getName() + "! Че как жизнь петушок?"))));
     }
 
     /**
