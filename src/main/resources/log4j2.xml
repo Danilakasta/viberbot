@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration botInterval="60">
+    <Properties>
+        <Property name="log-dir">bot_logs</Property>
+        <Property name="log-path">${sys:user.home}/${log-dir}</Property>
+        <Property name="archive">${sys:user.home}/${log-dir}/archive</Property>
+    </Properties>
+    <Appenders>
+        <Console name="Console-Appender" target="SYSTEM_OUT">
+            <!-- Colorized as in Spring Boot ;) -->
+            <PatternLayout
+                    pattern="%clr{%d{yyyy-MM-dd HH:mm:ss.SSS}}{magenta} %clr{%5p} %clr{${sys:PID}}{magenta} %clr{---}{red} %clr{[%20.20t]}{faint} %clr{%-40.40c{1.}}{cyan} %clr{%5L:}{blue} %m%n%xwEx"/>
+        </Console>
+        <RollingFile name="RollingFile-Appender"
+                     fileName="${log-path}/logs.log"
+                     filePattern="${archive}/logs.log.%d{yyyy-MM-dd-hh}.gz">
+            <PatternLayout pattern="[%-5level] %d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %c{1} - %msg%n"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy/>
+                <SizeBasedTriggeringPolicy size="10 MB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="30"/>
+        </RollingFile>
+    </Appenders>
+    <Loggers>
+        <Logger name="ru.kkb.bot.viber" level="debug" additivity="false">
+            <AppenderRef ref="Console-Appender" level="info"/>
+            <AppenderRef ref="RollingFile-Appender" level="info"/>
+            <!-- <AppenderRef ref="MongoDB-Appender"/> -->
+        </Logger>
+        <Root level="info">
+            <AppenderRef ref="Console-Appender"/>
+            <AppenderRef ref="RollingFile-Appender"/>
+            <!-- <AppenderRef ref="MongoDB-Appender"/> -->
+        </Root>
+    </Loggers>
+</Configuration>
